@@ -3,6 +3,7 @@ import { SButton } from './SButton';
 import { Balance } from './Balance';
 import { ReelController } from './ReelController';
 import { ReelResult } from './ReelResult';
+import { BalanceData } from './BalanceData';
 import { Paytable } from './Paytable';
 const { ccclass, property } = _decorator;
 
@@ -31,6 +32,12 @@ export class SlotController extends Component
         this.paytable.Add("Symbol_Lemon", 2, 1);
         this.paytable.Add("Symbol_Cherry", 3, 2);
         this.paytable.Add("Symbol_Cherry", 2, 1);
+
+        let balanceData = new BalanceData();
+        balanceData.InitialBalance = 1000;
+        this.balance.Initialize(balanceData);
+
+        
     }
 
     update(deltaTime: number) 
