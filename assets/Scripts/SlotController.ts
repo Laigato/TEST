@@ -39,9 +39,20 @@ export class SlotController extends Component
 
     private OnReelComplete(value : ReelResult)
     {
-        //  TODO: Check Result
-        //  If Win Balance++ * Mult
+        for(let i = 0; i < value.resultLeft.length; i++)
+        {
+            console.log("LEFT " + value.resultLeft[i]);
+        }
         
+        for(let i = 0; i < value.resultMid.length; i++)
+        {
+            console.log("MID " + value.resultMid[i]);
+        }
+
+        for(let i = 0; i < value.resultRight.length; i++)
+        {
+            console.log("RIGHT " + value.resultRight[i]);
+        }
     }
 }
 

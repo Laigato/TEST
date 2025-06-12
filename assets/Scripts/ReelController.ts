@@ -3,7 +3,6 @@ import { Reel } from './Reel';
 import { ReelResult } from './ReelResult';
 const { ccclass, property } = _decorator;
 
-const EventEmitter = new EventTarget(); 
 
 @ccclass('ReelController')
 export class ReelController extends Component  implements ICanInitialize
@@ -26,11 +25,17 @@ export class ReelController extends Component  implements ICanInitialize
     @property
     private reelInterval: number = 1;
     
+    private EventEmitter = new EventTarget(); 
+
+    private result : ReelResult;
+
     start() 
     {
-        this.reelLeft.SubscribeSpinComplete(this.OnLeftFinish);
-        this.reelMid.SubscribeSpinComplete(this.OnMiddleFinish);
-        this.reelRight.SubscribeSpinComplete(this.OnRightFinish);
+        this._this = this;
+
+        this.reelLeft.SubscribeSpinComplete(this.OnLeftFinish, this);
+        this.reelMid.SubscribeSpinComplete(this.OnMiddleFinish, this);
+        this.reelRight.SubscribeSpinComplete(this.OnRightFinish, this);
     }
     
     update(deltaTime: number) 
@@ -45,12 +50,15 @@ export class ReelController extends Component  implements ICanInitialize
 
     public async Spin()
     {
+        this.result = new ReelResult();
+
+        this.EventEmitter.emit(ReelController.Events.ONREELSTART);
         this.reelLeft.Spin(5);
         
-        await this.Delay(1000);
+        await this.Delay(this.reelInterval * 1000);
         this.reelMid.Spin(5);
         
-        await this.Delay(1000);
+        await this.Delay(this.reelInterval * 1000);
         this.reelRight.Spin(5);
     }
 
@@ -61,37 +69,38 @@ export class ReelController extends Component  implements ICanInitialize
 
     public SubscribeSpinStart(callback: (value: ReelResult) => void, target?: any)
     {
-        EventEmitter.on(ReelController.Events.ONREELSTART, callback, target);
+        this.EventEmitter.on(ReelController.Events.ONREELSTART, callback).bind(this);
     }
     
     public UnSubcribeeSpinStart(callback: (value: ReelResult) => void, target?: any)
     {
-        EventEmitter.off(ReelController.Events.ONREELSTART, callback, target);
+        this.EventEmitter.off(ReelController.Events.ONREELSTART, callback);
     }
 
     public SubscribeSpinComplete(callback: (value: ReelResult) => void, target?: any)
     {
-        EventEmitter.on(ReelController.Events.ONREELCOMPLETE, callback, target);
+        this.EventEmitter.on(ReelController.Events.ONREELCOMPLETE, callback, target);
     }
     
     public UnSubcribeeSpinComplete(callback: (value: ReelResult) => void, target?: any)
     {
-        EventEmitter.off(ReelController.Events.ONREELCOMPLETE, callback, target);
+        this.EventEmitter.off(ReelController.Events.ONREELCOMPLETE, callback);
     }
 
-    private OnLeftFinish()
+    private OnLeftFinish(items: string[])
     {
-        console.log("LEFT FINISH");
+        this.result.resultLeft = items;
     }
-
-    private OnMiddleFinish()
+    
+    private OnMiddleFinish(items: string[])
     {
-        console.log("MIDDLE FINISH");
+        this.result.resultMid = items;
     }
-
-    private OnRightFinish()
+    
+    private OnRightFinish(items: string[])
     {
-        console.log("RIGHT FINISH");
+        this.result.resultRight = items;
+        this.EventEmitter.emit(ReelController.Events.ONREELCOMPLETE, this.result);
     }
 }
 

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, EventTarget, Vec3, tween, Layout } from 'cc';
+import { _decorator, Component, Node, EventTarget, Vec3, tween, Layout, Sprite } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Reel')
@@ -48,7 +48,9 @@ export class Reel extends Component
             this.isSpinning = false;
             this.unschedule(this.SpinReel);
             this.Snap();
-            this.EventEmitter.emit(Reel.Events.SPINCOMPLETE);
+            
+            const visibleItem = this.reelItems.slice(1, 4).map(item => item.getComponent(Sprite).spriteFrame.name);
+            this.EventEmitter.emit(Reel.Events.SPINCOMPLETE, visibleItem);
             return;
         }
 
@@ -82,12 +84,12 @@ export class Reel extends Component
         } 
     }
 
-    public SubscribeSpinComplete(callback: () => void, target?: any)
+    public SubscribeSpinComplete(callback: (items: string[]) => void, target?: any)
     {
         this.EventEmitter.on(Reel.Events.SPINCOMPLETE, callback, target);
     }
     
-    public UnSubcribeSpinComplete(callback: () => void, target?: any)
+    public UnSubcribeSpinComplete(callback: (items: string[]) => void, target?: any)
     {
         this.EventEmitter.off(Reel.Events.SPINCOMPLETE, callback, target);
     }
