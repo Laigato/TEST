@@ -24,6 +24,7 @@ export class SlotController extends Component
     private buttonReroll: SButton;
 
     private paytable: Paytable = new Paytable();
+    private betLock: number;
 
     start() 
     {
@@ -59,6 +60,7 @@ export class SlotController extends Component
         {
             this.balance.Substract(this.bet.GetCurrentBet());
             this.reelController.Spin();
+            this.betLock = this.bet.GetCurrentBet();
         }
     }
 
@@ -89,7 +91,7 @@ export class SlotController extends Component
         
         const totalMult = (topMultiplier?? 0) + (midMultiplier?? 0) + (botMultiplier?? 0);
         
-        this.balance.Add(this.bet.GetCurrentBet() * totalMult);
+        this.balance.Add(this.betLock * totalMult);
         this.buttonReroll.Enable();
     }
                 
