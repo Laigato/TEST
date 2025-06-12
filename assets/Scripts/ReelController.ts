@@ -31,8 +31,6 @@ export class ReelController extends Component  implements ICanInitialize
 
     start() 
     {
-        this._this = this;
-
         this.reelLeft.SubscribeSpinComplete(this.OnLeftFinish, this);
         this.reelMid.SubscribeSpinComplete(this.OnMiddleFinish, this);
         this.reelRight.SubscribeSpinComplete(this.OnRightFinish, this);
