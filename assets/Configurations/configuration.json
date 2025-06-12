@@ -1,0 +1,82 @@
+{
+    "PayTable":
+    {
+        "Combinations":
+        [
+            {
+                "Name"  : "Symbol_7",
+                "Amount": 3,
+                "Multiplier": 7
+            },
+            {
+                "Name"  : "Symbol_BAR",
+                "Amount": 3,
+                "Multiplier": 5
+            },
+            {
+                "Name"  : "Symbol_Cherry",
+                "Amount": 3,
+                "Multiplier": 3
+            },
+            {
+                "Name"  : "Symbol_Lemon",
+                "Amount": 3,
+                "Multiplier": 3
+            },
+            {
+                "Name"  : "Symbol_Lemon",
+                "Amount": 2,
+                "Multiplier": 1
+            }
+        ]
+    },
+    "Reels":
+    [
+        {
+            "Configuration":
+            {
+
+            },
+            "Symbols":
+            [
+                "Symbol_7",
+                "Symbol_BAR",
+                "Symbol_Cherry",
+                "Symbol_Lemon",
+                "Symbol_WILD"
+            ]
+        },
+        {
+            "Configuration":
+            {
+
+            },
+            "Symbols":
+            [
+                "Symbol_Cherry",
+                "Symbol_Lemon",
+                "Symbol_7",
+                "Symbol_BAR",
+                "Symbol_Cherry",
+                "Symbol_Lemon",
+                "Symbol_WILD"
+            ]
+        },
+        {
+            "Configuration":
+            {
+                
+            },
+            "Symbols":
+            [
+                "Symbol_7",
+                "Symbol_Cherry",
+                "Symbol_Lemon",
+                "Symbol_WILD",
+                "Symbol_Cherry",
+                "Symbol_Lemon",
+                "Symbol_BAR"
+            ]
+        }
+    ]
+}

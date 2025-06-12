@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, Node } from 'cc';
+import { _decorator, Button, Component, JsonAsset, Node } from 'cc';
 import { SButton } from './SButton';
 import { Balance } from './Balance';
 import { ReelController } from './ReelController';
@@ -23,6 +23,9 @@ export class SlotController extends Component
     @property(SButton)
     private buttonReroll: SButton;
 
+    @property(JsonAsset)
+    private configurationJSON: JsonAsset;
+
     private paytable: Paytable = new Paytable();
     private betLock: number;
 
@@ -32,12 +35,13 @@ export class SlotController extends Component
         this.reelController.SubscribeSpinStart(this.OnReelStart, this);
         this.reelController.SubscribeSpinComplete(this.OnReelComplete, this);
         
-        this.paytable.Add("Symbol_7", 3, 7);
-        this.paytable.Add("Symbol_BAR", 3, 3);
-        this.paytable.Add("Symbol_Lemon", 3, 4);
-        this.paytable.Add("Symbol_Lemon", 2, 1);
-        this.paytable.Add("Symbol_Cherry", 3, 2);
-        this.paytable.Add("Symbol_Cherry", 2, 1);
+        const configuration = this.configurationJSON.json;
+        const paytable =  configuration.PayTable;
+        for (let i = 0; i < paytable.Combinations.length; i++)
+        {
+            const combination = paytable.Combinations[i];
+            this.paytable.Add(combination.Name, combination.Amount, combination.Multiplier); 
+        }
 
         let balanceData = new BalanceData();
         balanceData.InitialBalance = 1000;

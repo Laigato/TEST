@@ -3832,6 +3832,10 @@
     "buttonReroll": {
       "__id__": 74
     },
+    "configurationJSON": {
+      "__uuid__": "f3476fe8-65b0-4b13-9825-bdf9330f4cac",
+      "__expectedType__": "cc.JsonAsset"
+    },
     "_id": "4803MOaTVIUrKK/HQrO3WH"
   },
   {
