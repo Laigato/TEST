@@ -3,6 +3,7 @@ import { SButton } from './SButton';
 import { Balance } from './Balance';
 import { ReelController } from './ReelController';
 import { ReelResult } from './ReelResult';
+import { Paytable } from './Paytable';
 const { ccclass, property } = _decorator;
 
 @ccclass('SlotController')
@@ -17,10 +18,19 @@ export class SlotController extends Component
     @property(SButton)
     private buttonReroll: SButton;
 
+    private paytable: Paytable = new Paytable();
+
     start() 
     {
         this.buttonReroll.SubscribeSpinComplete(this.OnReRollClick, this);
         this.reelController.SubscribeSpinComplete(this.OnReelComplete, this);
+        
+        this.paytable.Add("Symbol_7", 3, 7);
+        this.paytable.Add("Symbol_BAR", 3, 3);
+        this.paytable.Add("Symbol_Lemon", 3, 4);
+        this.paytable.Add("Symbol_Lemon", 2, 1);
+        this.paytable.Add("Symbol_Cherry", 3, 2);
+        this.paytable.Add("Symbol_Cherry", 2, 1);
     }
 
     update(deltaTime: number) 
@@ -39,20 +49,49 @@ export class SlotController extends Component
 
     private OnReelComplete(value : ReelResult)
     {
-        for(let i = 0; i < value.resultLeft.length; i++)
+        const topResult = this.MapArray([value.resultLeft[0], value.resultMid[0], value.resultRight[0]]);
+        const topMap = topResult.map;
+        const topStreakName = topResult.streakName;
+        const topCount = (topMap.get(topStreakName)?? 0) + (topMap.get("Symbol_WILD") ?? 0);
+        const topMultiplier = this.paytable.GetMultiplier(topStreakName, topCount); 
+
+        const midResult = this.MapArray([value.resultLeft[1], value.resultMid[1], value.resultRight[1]]);
+        const midMap = midResult.map;
+        const midStreakName = midResult.streakName;
+        const midCount = (midMap.get(midStreakName)?? 0) + (midMap.get("Symbol_WILD") ?? 0);
+        const midMultiplier = this.paytable.GetMultiplier(midStreakName, midCount);
+
+        const botResult = this.MapArray([value.resultLeft[2], value.resultMid[2], value.resultRight[2]]);
+        const botMap = botResult.map;
+        const botStreakName = botResult.streakName;
+        const botCount = (botMap.get(botStreakName)?? 0) + (botMap.get("Symbol_WILD") ?? 0);
+        const botMultiplier = this.paytable.GetMultiplier(botStreakName, botCount);
+
+        const totalMult = (topMultiplier?? 0) + (midMultiplier?? 0) + (botMultiplier?? 0);
+        console.log(totalMult);
+    }
+                
+    private MapArray(array: string[]) : { map: Map<string, number>, streakName: string } 
+    {
+        const map = new Map<string, number>();
+        let streakName = "";
+        let streakCount = 0;
+        for(let i = 0; i < array.length; i++)
         {
-            console.log("LEFT " + value.resultLeft[i]);
-        }
-        
-        for(let i = 0; i < value.resultMid.length; i++)
-        {
-            console.log("MID " + value.resultMid[i]);
+            const item = array[i];
+            let currentCount = map.get(item) ?? 0;
+            
+            map.set(item, currentCount + 1);
+
+            if (map.get(item) > streakCount &&
+                item != "Symbol_WILD")
+            {
+                streakCount = map.get(item);
+                streakName = item;
+            }
         }
 
-        for(let i = 0; i < value.resultRight.length; i++)
-        {
-            console.log("RIGHT " + value.resultRight[i]);
-        }
+        return { map, streakName };
     }
 }
 
