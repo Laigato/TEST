@@ -16,7 +16,13 @@ This project follows a MVP architecture, designed for clarity, and separation co
     Defines the amount wagered per spin. This value multliplied by the paytable multipliers to calculate total winning.
 
 # Stretch Goal
- 1. The WILD
+ 1. Data Driven Configuration
+    I implemented JSON configuration which could modify PayTable value.
+
+    Technical Approach:
+    PayTable already manipulateable from external scripts, so PayTable data could be replaced with data from configuration json or by hardcoded from SlotController.cs
+    
+ 2. The WILD
     I implemented support for a special WILD symbol that can substitute for any other symbol to form a winning combination.
 
     Technical Approach:
@@ -30,6 +36,7 @@ This project follows a MVP architecture, designed for clarity, and separation co
         4. I then checked if any adjusted count met a winning condition in the paytable.
 
 # Data Driven
+   The designer could modify configuration.json to modify PayTable values
 
 # Challenges
     1. Reel Animation Handling
