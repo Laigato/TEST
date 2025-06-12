@@ -5,6 +5,8 @@ import { ReelController } from './ReelController';
 import { ReelResult } from './ReelResult';
 import { BalanceData } from './BalanceData';
 import { Paytable } from './Paytable';
+import { Bet } from './Bet';
+import { BetData } from './BetData';
 const { ccclass, property } = _decorator;
 
 @ccclass('SlotController')
@@ -12,6 +14,8 @@ export class SlotController extends Component
 {
     @property(Balance)
     private balance: Balance; 
+    @property(Bet)
+    private bet: Bet;
 
     @property(ReelController)
     private reelController: ReelController;
@@ -37,7 +41,10 @@ export class SlotController extends Component
         balanceData.InitialBalance = 1000;
         this.balance.Initialize(balanceData);
 
-        
+        let betData = new BetData();
+        betData.InitialBet = 10;
+        betData.Increment = 5;
+        this.bet.Initialize(betData);
     }
 
     update(deltaTime: number) 
@@ -47,9 +54,9 @@ export class SlotController extends Component
 
     private OnReRollClick()
     {
-        if (this.balance.CanSubstract(5))
+        if (this.balance.CanSubstract(this.bet.GetCurrentBet()))
         {
-            this.balance.Substract(5);
+            this.balance.Substract(this.bet.GetCurrentBet());
             this.reelController.Spin();
         }
     }
