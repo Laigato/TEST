@@ -980,7 +980,7 @@
     "__prefab": null,
     "spinSpeedMin": 600,
     "spinSpeedMax": 1000,
-    "spinDuration": 5,
+    "spinDuration": 3,
     "itemSpacing": 135,
     "_id": "a4gudfUT9NNL/zEYE6RB0X"
   },
@@ -1689,7 +1689,7 @@
     "__prefab": null,
     "spinSpeedMin": 600,
     "spinSpeedMax": 1000,
-    "spinDuration": 5,
+    "spinDuration": 3,
     "itemSpacing": 135,
     "_id": "171ZbU31BECree3JJxfZcp"
   },
@@ -2398,7 +2398,7 @@
     "__prefab": null,
     "spinSpeedMin": 600,
     "spinSpeedMax": 1000,
-    "spinDuration": 5,
+    "spinDuration": 3,
     "itemSpacing": 135,
     "_id": "a2PZMmjdlGjL2CHHlOq4XI"
   },

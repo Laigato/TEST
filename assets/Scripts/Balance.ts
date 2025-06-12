@@ -8,42 +8,34 @@ export class Balance extends Component implements ICanInitialize
     @property(RichText)
     private amount: RichText;
     
-    private _currentBalance: number = 0;
+    private currentBalance: number = 0;
     
-    start() 
-    {
-        
-    }
-    
-    update(deltaTime: number) 
-    {
-        
-    }
-
     public Initialize(value: IData): void 
     {
-        this._currentBalance = (value as BalanceData).InitialBalance;
+        this.currentBalance = (value as BalanceData).InitialBalance;
         this.Refresh();
     }
 
     public Add(amount: number)
     {
-
+        this.currentBalance += amount;
+        this.Refresh();
     }
-
+    
     public CanSubstract(amount: number)
     {
-        return this._currentBalance >= amount; 
+        return this.currentBalance >= amount; 
     }
-
+    
     public Substract(amount: number)
     {
-        
+        this.currentBalance -= amount;
+        this.Refresh();
     }
 
     public Refresh()
     {
-
+        this.amount.string = this.currentBalance.toString();
     }
 }
 
