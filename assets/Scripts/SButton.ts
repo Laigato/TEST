@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, EventTarget } from 'cc';
+import { _decorator, Component, Node, EventTarget, Button } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('SButton')
@@ -14,6 +14,16 @@ export class SButton extends Component
     public Click()
     {
         this.EventEmitter.emit(SButton.Events.ONCLICK);
+    }
+
+    public Enable()
+    {
+        this.getComponent(Button).interactable = true;    
+    }
+    
+    public Disable()
+    {
+        this.getComponent(Button).interactable = false;    
     }
 
     public SubscribeSpinComplete(callback: () => void, target?: any)
