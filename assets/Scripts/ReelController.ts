@@ -67,7 +67,7 @@ export class ReelController extends Component  implements ICanInitialize
 
     public SubscribeSpinStart(callback: (value: ReelResult) => void, target?: any)
     {
-        this.EventEmitter.on(ReelController.Events.ONREELSTART, callback).bind(this);
+        this.EventEmitter.on(ReelController.Events.ONREELSTART, callback, target);
     }
     
     public UnSubcribeeSpinStart(callback: (value: ReelResult) => void, target?: any)
